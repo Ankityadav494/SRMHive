@@ -1,4 +1,11 @@
-import { getProjects, getApplications, getUser, setApplications } from "../utils/storage";
+import { Link } from "react-router-dom";
+import {
+  getProjects,
+  getApplications,
+  getUser,
+  setApplications,
+  addNotification,
+} from "../utils/storage";
 
 const MyPosts = () => {
   const user = getUser();
@@ -8,11 +15,31 @@ const MyPosts = () => {
   const myPosts = projects.filter((project) => project.owner === user?.name);
 
   const handleStatusChange = (applicationId, newStatus) => {
+    const selectedApplication = applications.find(
+      (app) => app.id === applicationId
+    );
+
     const updatedApplications = applications.map((app) =>
       app.id === applicationId ? { ...app, status: newStatus } : app
     );
 
     setApplications(updatedApplications);
+
+    addNotification({
+      id: Date.now().toString(),
+      userEmail: selectedApplication.applicantEmail,
+      title:
+        newStatus === "Accepted"
+          ? "Application Accepted"
+          : "Application Rejected",
+      message:
+        newStatus === "Accepted"
+          ? `Your application for "${selectedApplication.projectTitle}" has been accepted.`
+          : `Your application for "${selectedApplication.projectTitle}" has been rejected.`,
+      isRead: false,
+      createdAt: new Date().toLocaleString(),
+    });
+
     window.location.reload();
   };
 
@@ -32,6 +59,14 @@ const MyPosts = () => {
               <p style={{ margin: "10px 0", color: "#555" }}>{project.description}</p>
 
               <p><strong>Deadline:</strong> {project.deadline}</p>
+
+              <Link
+                to={`/team-chat/${project.id}`}
+                className="action-btn"
+                style={{ marginTop: "12px", marginBottom: "15px" }}
+              >
+                Open Team Chat
+              </Link>
 
               <div style={{ marginTop: "15px" }}>
                 <h3>Applicants</h3>

@@ -1,5 +1,11 @@
 import { useParams } from "react-router-dom";
-import { getProjects, getApplications, setApplications, getUser } from "../utils/storage";
+import {
+  getProjects,
+  getApplications,
+  setApplications,
+  getUser,
+  addNotification,
+} from "../utils/storage";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -36,6 +42,16 @@ const ProjectDetails = () => {
     };
 
     setApplications([...applications, newApplication]);
+
+    addNotification({
+  id: Date.now().toString() + "_owner",
+  userEmail: project.ownerEmail,
+  title: "New Application Received",
+  message: `${user.name} applied to join your project "${project.title}".`,
+  isRead: false,
+  createdAt: new Date().toLocaleString(),
+});
+
     alert("Applied successfully");
   };
 

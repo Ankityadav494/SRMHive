@@ -28,3 +28,50 @@ export const setApplications = (applications) => {
     JSON.stringify(applications)
   );
 };
+
+export const getNotifications = () => {
+  return JSON.parse(localStorage.getItem("devconnect_notifications")) || [];
+};
+
+export const setNotifications = (notifications) => {
+  localStorage.setItem(
+    "devconnect_notifications",
+    JSON.stringify(notifications)
+  );
+};
+
+export const addNotification = (notification) => {
+  const existingNotifications = getNotifications();
+  const updatedNotifications = [notification, ...existingNotifications];
+  setNotifications(updatedNotifications);
+};
+
+export const markNotificationAsRead = (id) => {
+  const notifications = getNotifications();
+  const updatedNotifications = notifications.map((item) =>
+    item.id === id ? { ...item, isRead: true } : item
+  );
+  setNotifications(updatedNotifications);
+};
+
+export const markAllNotificationsAsRead = (userEmail) => {
+  const notifications = getNotifications();
+  const updatedNotifications = notifications.map((item) =>
+    item.userEmail === userEmail ? { ...item, isRead: true } : item
+  );
+  setNotifications(updatedNotifications);
+};
+
+export const getMessages = () => {
+  return JSON.parse(localStorage.getItem("devconnect_messages")) || [];
+};
+
+export const setMessages = (messages) => {
+  localStorage.setItem("devconnect_messages", JSON.stringify(messages));
+};
+
+export const addMessage = (message) => {
+  const existingMessages = getMessages();
+  const updatedMessages = [...existingMessages, message];
+  setMessages(updatedMessages);
+};

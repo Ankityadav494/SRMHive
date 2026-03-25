@@ -47,6 +47,7 @@ const CreatePost = () => {
       difficulty: formData.difficulty,
       mode: formData.mode,
       owner: user?.name || "Unknown",
+      ownerEmail: user?.email || "",
     };
 
     setProjects([...projects, newProject]);

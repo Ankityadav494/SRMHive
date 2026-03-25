@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { getApplications, getUser } from "../utils/storage";
 
 const MyApplications = () => {
@@ -23,6 +24,15 @@ const MyApplications = () => {
               <p>
                 <strong>Status:</strong> {app.status}
               </p>
+
+              {app.status === "Accepted" && (
+                <Link
+                  to={`/team-chat/${app.projectId}`}
+                  className="action-btn"
+                >
+                  Open Team Chat
+                </Link>
+              )}
             </div>
           ))}
         </div>

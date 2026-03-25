@@ -12,6 +12,8 @@ import BrowseProjects from "./pages/BrowseProjects";
 import ProjectDetails from "./pages/ProjectDetails";
 import MyApplications from "./pages/MyApplications";
 import MyPosts from "./pages/MyPosts";
+import Notifications from "./pages/Notifications";
+import TeamChat from "./pages/TeamChat";
 
 function App() {
   return (
@@ -65,6 +67,24 @@ function App() {
           element={
             <ProtectedRoute>
               <MyPosts />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/team-chat/:projectId"
+          element={
+            <ProtectedRoute>
+              <TeamChat />
             </ProtectedRoute>
           }
         />
