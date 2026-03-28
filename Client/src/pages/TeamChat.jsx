@@ -28,9 +28,9 @@ const TeamChat = () => {
         setProject(projectRes.data);
         setMessages(historyRes.data);
 
-        const isOwner = projectRes.data.owner?._id === user?._id;
+        const isOwner = projectRes.data.owner?._id?.toString() === user?._id?.toString();
         const isAcceptedMember = applicationsRes.data.some(
-          (app) => app.project?._id === projectId && app.status === "Accepted"
+          (app) => (app.project?._id ?? app.project)?.toString() === projectId && app.status === "Accepted"
         );
 
         setAllowed(isOwner || isAcceptedMember);
@@ -121,7 +121,7 @@ const TeamChat = () => {
   }
 
   return (
-    <div className="h-[calc(100vh-80px)] bg-slate-50 py-6 px-4 sm:px-6 lg:px-8 overflow-hidden flex flex-col">
+    <div className="h-[calc(100vh-64px)] bg-slate-50 py-4 px-4 sm:px-6 overflow-hidden flex flex-col">
       <div className="max-w-5xl mx-auto w-full flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200 flex-grow">
         
         {/* Chat Header */}
@@ -149,25 +149,45 @@ const TeamChat = () => {
         <div className="flex-grow p-6 overflow-y-auto bg-gray-50/50 flex flex-col gap-6" style={{ scrollBehavior: 'smooth' }}>
           {messages.length > 0 ? (
             messages.map((msg, index) => {
-              const isMine = msg.sender === user._id || (msg.sender && msg.sender._id === user._id);
+              // sender is always a populated object: { _id, name, email }
+              const senderId = msg.sender?._id?.toString() ?? msg.sender?.toString();
+              const isMine = senderId === user._id?.toString();
+              const senderName = msg.sender?.name || "Team Member";
               return (
-                <div key={index} className={`flex w-full ${isMine ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[75%] sm:max-w-[65%] flex flex-col ${isMine ? 'items-end' : 'items-start'}`}>
-                    
+                <div key={msg._id || index} className={`flex w-full gap-2 ${isMine ? 'justify-end' : 'justify-start'}`}>
+                  {/* Avatar for others */}
+                  {!isMine && (
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-sm mt-auto mb-1">
+                      {senderName.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+
+                  <div className={`max-w-[72%] sm:max-w-[60%] flex flex-col ${isMine ? 'items-end' : 'items-start'}`}>
                     {!isMine && (
                       <span className="text-xs font-semibold text-gray-500 mb-1 ml-1">
-                        {msg.sender?.name || "Team Member"}
+                        {senderName}
                       </span>
                     )}
 
-                    <div className={`relative px-5 py-3 shadow-sm text-[15px] leading-relaxed ${
-                      isMine 
-                        ? 'bg-indigo-600 text-white rounded-2xl rounded-tr-sm' 
+                    <div className={`relative px-4 py-2.5 shadow-sm text-[14.5px] leading-relaxed ${
+                      isMine
+                        ? 'bg-indigo-600 text-white rounded-2xl rounded-tr-sm'
                         : 'bg-white text-gray-800 border border-gray-200 rounded-2xl rounded-tl-sm'
                     }`}>
                       {msg.text}
                     </div>
+
+                    <span className="text-[10px] text-gray-400 mt-1 mx-1">
+                      {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
                   </div>
+
+                  {/* Avatar for self */}
+                  {isMine && (
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm mt-auto mb-1">
+                      {user.name?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </div>
               );
             })
