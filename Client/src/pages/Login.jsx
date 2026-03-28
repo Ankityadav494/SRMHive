@@ -47,7 +47,7 @@ const Login = () => {
             Welcome back
           </h2>
           <p className="mt-4 text-center text-sm text-gray-600">
-            Sign in to continue to <span className="font-semibold text-indigo-600">SyncNest</span>
+            Sign in to continue to <span className="font-semibold text-indigo-600">SRMHive</span>
           </p>
         </div>
         

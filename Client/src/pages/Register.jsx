@@ -48,7 +48,7 @@ const Register = () => {
             Create Account
           </h2>
           <p className="mt-4 text-center text-sm text-gray-600">
-            Join <span className="font-semibold text-indigo-600">SyncNest</span> and start collaborating today
+            Join <span className="font-semibold text-indigo-600">SRMHive</span> and start collaborating today
           </p>
         </div>
         

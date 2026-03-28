@@ -12,7 +12,7 @@ const Home = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 relative z-10 flex flex-col items-center text-center">
           <span className="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 text-sm font-semibold mb-6 shadow-sm border border-indigo-100">
-            Welcome to SyncNest ✨
+            Welcome to SRMHive ✨
           </span>
           <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-tight mb-8">
             Find the Right Teammates <br />
@@ -21,7 +21,7 @@ const Home = () => {
             </span>
           </h1>
           <p className="max-w-2xl text-lg md:text-xl text-gray-600 mb-10 leading-relaxed">
-            SyncNest is a premier collaboration platform where you can create
+            SRMHive is a premier collaboration platform where you can create
             project posts, find skilled teammates, apply to exciting ideas, and
             build your network.
           </p>
